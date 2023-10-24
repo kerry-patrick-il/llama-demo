@@ -1,0 +1,41 @@
+﻿<Window x:Class="llama_demo.wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:llama_demo.wpf"
+        mc:Ignorable="d" Background="LightGreen"
+        Title="MainWindow" Height="600" Width="800" FontSize="20">
+    <Grid Margin="10,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.ColumnSpan="3" Content="Hey, Llama! How about a little...you know...something for the effort..." FontSize="20" HorizontalAlignment="Center" />
+
+        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Content="Model:" />
+        <ComboBox Grid.Row="1" Grid.Column="1" Margin="5"></ComboBox>
+
+        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Prompt:" />
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="10"></TextBox>
+        <Button Grid.Row="2" Grid.Column="2" Content="Submit" Width="Auto" Margin="10" 
+                 VerticalAlignment="Top" />
+
+        <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Content="Input:" />
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="10"></TextBox>
+        <Button Grid.Row="4" Grid.Column="2" Content="Submit" Margin="10"></Button>
+
+        <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Top" Content="Output:" />
+        <ListBox Grid.Row="5" Grid.Column="1" Margin="10" />
+    </Grid>
+</Window>
