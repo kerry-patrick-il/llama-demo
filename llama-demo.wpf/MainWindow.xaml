@@ -4,16 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:llama_demo.wpf"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" Background="LightGreen"
-        Title="MainWindow" Height="600" Width="800" FontSize="20">
+        Title="Prompt Engineering Workspace" Height="600" Width="800" FontSize="16"  >
+    <Window.DataContext>
+        <ObjectDataProvider MethodName="Create" ObjectType="{x:Type local:MainViewModel}" />
+    </Window.DataContext>
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Closing">
+            <b:InvokeCommandAction Command="{Binding ClearChatCommand}"></b:InvokeCommandAction>
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
     <Grid Margin="10,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -24,18 +35,37 @@
         <Label Grid.Row="0" Grid.ColumnSpan="3" Content="Hey, Llama! How about a little...you know...something for the effort..." FontSize="20" HorizontalAlignment="Center" />
 
         <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Content="Model:" />
-        <ComboBox Grid.Row="1" Grid.Column="1" Margin="5"></ComboBox>
+        <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding Models}" 
+                  HorizontalAlignment="Left" Width="200"
+                  DisplayMemberPath="Value" SelectedValue="{Binding SelectedModel}" SelectedValuePath="Key" />
 
-        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Prompt:" />
-        <TextBox Grid.Row="2" Grid.Column="1" Margin="10"></TextBox>
-        <Button Grid.Row="2" Grid.Column="2" Content="Submit" Width="Auto" Margin="10" 
+        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Top" Content="Prompt Starter:" />
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="5" ItemsSource="{Binding PromptStarts}"
+                  HorizontalAlignment="Left" Width="200"
+                  DisplayMemberPath="Key" SelectedIndex="{Binding SelectedPromptStartIndex}" />
+
+        <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" Content="Prompt:" />
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="5" FontSize="12" Text="{Binding Prompt}"
+                 VerticalScrollBarVisibility="Auto" ></TextBox>
+
+        <Button Grid.Row="4" Grid.Column="1" Content="Start Chatting" Width="Auto" Margin="5" 
+                Command="{Binding LoadPromptCommand}" HorizontalAlignment="Left" Padding="5"
                  VerticalAlignment="Top" />
 
-        <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Content="Input:" />
-        <TextBox Grid.Row="4" Grid.Column="1" Margin="10"></TextBox>
-        <Button Grid.Row="4" Grid.Column="2" Content="Submit" Margin="10"></Button>
+        <Separator Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Background="Black" Width="800" HorizontalAlignment="Center" ></Separator>
+        
+        <Label Grid.Row="6" Grid.Column="0" VerticalAlignment="Top" Content="Output:" />
+        <ListBox Grid.Row="6" Grid.Column="1" Margin="10" FontSize="12" Background="LightGoldenrodYellow"
+                 ItemsSource="{Binding Chat}" />
 
-        <Label Grid.Row="5" Grid.Column="0" VerticalAlignment="Top" Content="Output:" />
-        <ListBox Grid.Row="5" Grid.Column="1" Margin="10" />
+        <Label Grid.Row="7" Grid.Column="0" VerticalAlignment="Top" Content="Input:" />
+        <TextBox Grid.Row="7" Grid.Column="1" Margin="10" Text="{Binding Input}" Height="100"
+                 TextWrapping="Wrap">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding SendInputCommand}"></KeyBinding>
+            </TextBox.InputBindings>
+        </TextBox>
+        <Button Grid.Row="7" Grid.Column="2" Content="Submit" Margin="10" Command="{Binding SendInputCommand}" VerticalAlignment="Bottom" ></Button>
+
     </Grid>
 </Window>
